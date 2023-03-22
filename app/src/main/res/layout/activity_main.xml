@@ -103,7 +103,7 @@
         app:layout_constraintTop_toTopOf="@id/barrier2"
         android:background="@android:color/transparent"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:srcCompat="@drawable/baseline_thumb_up_off_alt_24"
+        app:srcCompat="@drawable/baseline_favorite_border_24"
         />
 
     <TextView
