@@ -1,9 +1,14 @@
 package ru.netology.nmedia
 
-import androidx.appcompat.app.AppCompatActivity
+import android.R.attr.x
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia.databinding.ActivityMainBinding
+import kotlin.math.floor
+import kotlin.math.round
+import kotlin.math.roundToInt
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,13 +47,29 @@ class MainActivity : AppCompatActivity() {
                 like?.setImageResource(R.drawable.baseline_favorite_24)
             }
 
-            val divideLikesToThousand = post.likes / 1000
+
+            val divideLikesToThousand = post.likes.toDouble() / 1000
+            val divideLikesToThousandInt = (post.likes / 1000)
+            val divideLikesToMillion = post.likes.toDouble() / 1_000_000;
+            val divideLikesToMillionInt = post.likes / 1_000_000;
+            val z = 0.1 * floor(10 * divideLikesToThousand)
+            val zMil = 0.1 * floor(10 * divideLikesToMillion)
+            val s = String.format("%.1f", z)
+            val sMil = String.format("%.1f", zMil)
 
             likesAmount.text = post.likes.toString()
 
-            if(post.likes >= 1000) {
+            if(post.likes >= 0 && post.likes < 1000) {
+                likesAmount.text = post.likes.toString()
+            } else if(post.likes >= 1000 && post.likes < 10000) {
                 Log.d("$divideLikesToThousand", "sdsds")
-                likesAmount.text = "$divideLikesToThousand" + "K"
+                likesAmount.text = "$s" + "K"
+            } else if(post.likes >= 10000 && post.likes < 1_000_000) {
+                likesAmount.text = "$divideLikesToThousandInt" + "K"
+            } else if (post.likes >= 1_000_000 && post.likes < 10_000_000) {
+                likesAmount.text = "$sMil" + "M"
+            } else {
+                likesAmount.text = "$divideLikesToMillionInt" + "M"
             }
 
             shareAmount.text = post.shares.toString()
@@ -89,6 +110,8 @@ class MainActivity : AppCompatActivity() {
                     shareAmount.text = "$divideSharesToThousand" + "K"
                 }
             }
+
+            likesAmount.text = post.views.toString()
 
             views?.setOnClickListener {
                 post.views += 1
