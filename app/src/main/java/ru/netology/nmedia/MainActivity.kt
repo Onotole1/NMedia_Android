@@ -10,6 +10,28 @@ import kotlin.math.round
 import kotlin.math.roundToInt
 
 
+object WallService {
+    fun countAmountFormat(num: Int): String {
+        val divideNumToThousand = num.toDouble() / 1000
+        val divideNumToThousandInt = num / 1000
+        val divideNumToMillion = num.toDouble() / 1_000_000;
+        val divideNumToMillionInt = num / 1_000_000;
+        val z = 0.1 * floor(10 * divideNumToThousand)
+        val zMil = 0.1 * floor(10 * divideNumToMillion)
+        val s = String.format("%.0f", z)
+        val sMil = String.format("%.1f", zMil)
+
+        val result = when (num) {
+            in 0..999 -> num.toString()
+            in 1000..9999 -> "${s}K"
+            in 10_000..999999 -> "$divideNumToThousandInt" + "K"
+            in 1_000_000..9999999 -> "${sMil}M"
+            else -> "$divideNumToMillionInt" + "M"
+        }
+        return result
+    }
+}
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,39 +66,14 @@ class MainActivity : AppCompatActivity() {
             contentTextView.text = post.content
 
             if (post.likeByMe) {
-                like?.setImageResource(R.drawable.baseline_favorite_24)
+                like.setImageResource(R.drawable.baseline_favorite_24)
             }
 
+            likesAmount.text = WallService.countAmountFormat(post.likes)
+            shareAmount.text = WallService.countAmountFormat(post.shares)
+            viewsAmount.text = WallService.countAmountFormat(post.views)
 
-            val divideLikesToThousand = post.likes.toDouble() / 1000
-            val divideLikesToThousandInt = (post.likes / 1000)
-            val divideLikesToMillion = post.likes.toDouble() / 1_000_000;
-            val divideLikesToMillionInt = post.likes / 1_000_000;
-            val z = 0.1 * floor(10 * divideLikesToThousand)
-            val zMil = 0.1 * floor(10 * divideLikesToMillion)
-            val s = String.format("%.1f", z)
-            val sMil = String.format("%.1f", zMil)
-
-            likesAmount.text = post.likes.toString()
-
-            if(post.likes >= 0 && post.likes < 1000) {
-                likesAmount.text = post.likes.toString()
-            } else if(post.likes >= 1000 && post.likes < 10000) {
-                Log.d("$divideLikesToThousand", "sdsds")
-                likesAmount.text = "$s" + "K"
-            } else if(post.likes >= 10000 && post.likes < 1_000_000) {
-                likesAmount.text = "$divideLikesToThousandInt" + "K"
-            } else if (post.likes >= 1_000_000 && post.likes < 10_000_000) {
-                likesAmount.text = "$sMil" + "M"
-            } else {
-                likesAmount.text = "$divideLikesToMillionInt" + "M"
-            }
-
-            shareAmount.text = post.shares.toString()
-
-
-
-            like?.setOnClickListener {
+            like.setOnClickListener {
                 post.likeByMe = !post.likeByMe
                 post.likes = if (post.likeByMe) {
                     post.likes + 1
@@ -84,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                     post.likes - 1
                 }
 
-                likesAmount.text = post.likes.toString()
+                likesAmount.text = WallService.countAmountFormat(post.likes)
 
                 like.setImageResource(
                     if (post.likeByMe) {
@@ -93,35 +90,16 @@ class MainActivity : AppCompatActivity() {
                         R.drawable.baseline_favorite_border_24
                     }
                 )
-
-                if(post.likes >= 1000) {
-                    likesAmount.text = "$divideLikesToThousand" + "K"
-                }
             }
 
-
-            share?.setOnClickListener {
+            share.setOnClickListener {
                 post.shares += 1
-                shareAmount.text = post.shares.toString()
-
-                val divideSharesToThousand = post.shares / 1000
-
-                if(post.shares >= 1000) {
-                    shareAmount.text = "$divideSharesToThousand" + "K"
-                }
+                shareAmount.text = WallService.countAmountFormat(post.shares)
             }
 
-            likesAmount.text = post.views.toString()
-
-            views?.setOnClickListener {
+            views.setOnClickListener {
                 post.views += 1
-                viewsAmount.text = post.views.toString()
-
-                val divideViewsToThousand = post.views / 1000
-
-                if(post.views >= 1000) {
-                    viewsAmount.text = "$divideViewsToThousand" + "K"
-                }
+                viewsAmount.text = WallService.countAmountFormat(post.views)
             }
         }
     }
