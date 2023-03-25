@@ -1,5 +1,6 @@
 package ru.netology.nmedia
 
+
 import android.R.attr.x
 import android.os.Bundle
 import android.util.Log
@@ -8,47 +9,13 @@ import ru.netology.nmedia.databinding.ActivityMainBinding
 import kotlin.math.floor
 import kotlin.math.round
 import kotlin.math.roundToInt
-
-
-object WallService {
-    fun countAmountFormat(num: Int): String {
-        val divideNumToThousand = num.toDouble() / 1000
-        val divideNumToThousandInt = num / 1000
-        val divideNumToMillion = num.toDouble() / 1_000_000;
-        val divideNumToMillionInt = num / 1_000_000;
-        val z = 0.1 * floor(10 * divideNumToThousand)
-        val zMil = 0.1 * floor(10 * divideNumToMillion)
-        val s = String.format("%.0f", z)
-        val sMil = String.format("%.1f", zMil)
-
-        val result = when (num) {
-            in 0..999 -> num.toString()
-            in 1000..9999 -> "${s}K"
-            in 10_000..999999 -> "$divideNumToThousandInt" + "K"
-            in 1_000_000..9999999 -> "${sMil}M"
-            else -> "$divideNumToMillionInt" + "M"
-        }
-        return result
-    }
-}
+import ru.netology.nmedia.dto.WallService
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
-
-        binding.root.setOnClickListener {
-            println("Root")
-        }
-
-        binding.like.setOnClickListener {
-            println("Like")
-        }
-
-        binding.imageView2.setOnClickListener {
-            println("Ava")
-        }
 
         setContentView(binding.root)
 
