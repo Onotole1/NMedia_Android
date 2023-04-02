@@ -30,7 +30,7 @@ class PostRepositoryInMemory : PostRepository {
     override fun likeById(id: Long) {
         post = post.map { post ->
             if (post.id == id) {
-                post.copy(likeByMe = !post.likeByMe)
+                post.copy(likeByMe = !post.likeByMe, likes = if(post.likeByMe) post.likes - 1 else post.likes + 1)
             } else {
                 post
             }
