@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import ru.netology.nmedia.adapter.PostAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.databinding.CardPostBinding
 import kotlin.math.floor
 import kotlin.math.round
 import kotlin.math.roundToInt
@@ -17,40 +19,27 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        val activityBinding = ActivityMainBinding.inflate(layoutInflater)
 
-        setContentView(binding.root)
+        setContentView(activityBinding.root)
 
 
         val viewModel: PostViewModel by viewModels()
-        viewModel.data.observe(this) { post ->
-            with(binding) {
-                authorTextView.text = post.author
-                postDateTextView.text = post.published
-                contentTextView.text = post.content
 
-                if (post.likeByMe) {
-                    like.setImageResource(R.drawable.baseline_favorite_24)
-                } else {
-                    like.setImageResource(R.drawable.baseline_favorite_border_24)
-                }
-
-                likesAmount.text = WallService.countAmountFormat(post.likes)
-                shareAmount.text = WallService.countAmountFormat(post.shares)
-                viewsAmount.text = WallService.countAmountFormat(post.views)
-            }
+        val adapter = PostAdapter {
+            viewModel.likeById(it.id)
+            viewModel.shareById(it.id)
         }
 
-        binding.like.setOnClickListener {
-            viewModel.like()
+        viewModel.data.observe(this) { posts ->
+            adapter.submitList(posts)
         }
 
-        binding.share.setOnClickListener {
-            viewModel.share()
-        }
+        activityBinding.list.adapter = adapter
 
-        binding.views.setOnClickListener {
-            viewModel.view()
-        }
+//
+//        binding.views.setOnClickListener {
+//            viewModel.view()
+//        }
     }
 }
