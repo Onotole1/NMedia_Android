@@ -4,44 +4,79 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.Post
 
+
+private var nextId = 0L
+
 class PostRepositoryInMemory : PostRepository {
-    private var post = listOf(
+    private var posts = listOf(
         Post(
-            id = 0,
+            id = ++nextId,
             author = "Нетология, Университет-профессий будущего",
             content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать бастрее. Наша миссия - помочь встать на путь роста и начать цепочку перемен -> http://netolo.gy/fyb",
             published = "21 мая в 18:36",
             likeByMe = false
         ),
         Post(
-            id = 1,
+            id = ++nextId,
+            author = "Нетология, Университет-профессий будущего",
+            content = "Здарова, kjdhjghjdfhjghjdfhgjhjdfhgjhjkdfhg это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать бастрее. Наша миссия - помочь встать на путь роста и начать цепочку перемен -> http://netolo.gy/fyb",
+            published = "21 мая в 18:36",
+            likeByMe = false
+        ),
+        Post(
+            id = ++nextId,
+            author = "Нетология, Университет-профессий будущего",
+            content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать бастрее. Наша миссия - помочь встать на путь роста и начать цепочку перемен -> http://netolo.gy/fyb",
+            published = "21 мая в 18:36",
+            likeByMe = false
+        ),
+        Post(
+            id = ++nextId,
+            author = "Нетология, Университет-профессий будущего",
+            content = "Привет, kjdhjghjdfhjghjdfhgjhjdfhgjhjkdfhg это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать бастрее. Наша миссия - помочь встать на путь роста и начать цепочку перемен -> http://netolo.gy/fyb",
+            published = "21 мая в 18:36",
+            likeByMe = false
+        ),
+        Post(
+            id = ++nextId,
+            author = "Нетология, Университет-профессий будущего",
+            content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать бастрее. Наша миссия - помочь встать на путь роста и начать цепочку перемен -> http://netolo.gy/fyb",
+            published = "21 мая в 18:36",
+            likeByMe = false
+        ),
+        Post(
+            id = ++nextId,
             author = "Нетология, Университет-профессий будущего",
             content = "Привет, kjdhjghjdfhjghjdfhgjhjdfhgjhjkdfhg это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать бастрее. Наша миссия - помочь встать на путь роста и начать цепочку перемен -> http://netolo.gy/fyb",
             published = "21 мая в 18:36",
             likeByMe = false
         )
-    )
+    ).reversed()
 
-    private val data = MutableLiveData(post)
+    private val data = MutableLiveData(posts)
 
     override fun getData(): LiveData<List<Post>> = data
 
 
     override fun likeById(id: Long) {
-        post = post.map { post ->
+        posts = posts.map { post ->
             if (post.id == id) {
-                post.copy(likeByMe = !post.likeByMe, likes = if(post.likeByMe) post.likes - 1 else post.likes + 1)
+                post.copy(
+                    likeByMe = !post.likeByMe,
+                    likes = if (post.likeByMe) post.likes - 1 else post.likes + 1
+                )
             } else {
                 post
             }
         }
 
-        data.value = post // оповещаем что-то изменилось, с помощью setValue записываем в MutableLiveData значение. Подписчикам придёт обновленный список
+        data.value =
+            posts // оповещаем что-то изменилось, с помощью setValue записываем в MutableLiveData значение. Подписчикам придёт обновленный список
     }
 
 
     override fun shareById(id: Long) {
-        post = post.map { post ->
+        posts = posts.map { post ->
             if (post.id == id) {
                 post.copy(shares = post.shares + 1)
             } else {
@@ -49,13 +84,33 @@ class PostRepositoryInMemory : PostRepository {
             }
         }
 
-        data.value = post
+        data.value = posts
     }
 
-//    override fun view() {
-//        post = post.copy(
-//            views = post.views + 1
-//        )
-//        data.value = post
-//    }
+    override fun removeById(id: Long) {
+        posts = posts.filter {
+            it.id != id
+        }
+
+        data.value = posts
+    }
+
+
+    override fun save(post: Post) {
+        if(post.id == 0L) {
+            posts = listOf(
+                post.copy(
+                    id = ++nextId
+                )
+            ) + posts
+            data.value = posts
+            return
+        }
+
+        posts = posts.map {
+            if (it.id != post.id) it else it.copy(content = post.content)
+        }
+
+        data.value = posts
+    }
 }

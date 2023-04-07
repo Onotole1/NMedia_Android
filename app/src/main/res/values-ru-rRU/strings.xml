@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name" translatable="false">НМедиа</string>
     <string name="nmedia2">НМедиа!</string>
+    <string name="empty_post_error">Content must not be empty</string>
+    <string name="edit_message">Edit Message</string>
 </resources>

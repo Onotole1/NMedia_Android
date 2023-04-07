@@ -7,5 +7,6 @@ interface PostRepository {
     fun getData(): LiveData<List<Post>> //возвращаем данные подписки на наш пост
     fun likeById(id: Long)
     fun shareById(id: Long)
-//    fun view()
+    fun removeById(id: Long)
+    fun save(post: Post)
 }
