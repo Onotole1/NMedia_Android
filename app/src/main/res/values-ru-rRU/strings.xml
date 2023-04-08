@@ -4,4 +4,7 @@
     <string name="nmedia2">НМедиа!</string>
     <string name="empty_post_error">Content must not be empty</string>
     <string name="edit_message">Edit Message</string>
+    <string name="content">Content</string>
+    <string name="remove_item">Remove</string>
+    <string name="edit_item">Edit</string>
 </resources>
