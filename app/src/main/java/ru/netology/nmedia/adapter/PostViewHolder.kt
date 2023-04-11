@@ -18,13 +18,11 @@ class PostViewHolder(
             postDateTextView.text = post.published
             contentTextView.text = post.content
 
-            like.setImageResource(
-                if (post.likeByMe) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24
-            )
+            like.isChecked = post.likeByMe
 
-            likesAmount.text = WallService.countAmountFormat(post.likes)
-            shareAmount.text = WallService.countAmountFormat(post.shares)
-            viewsAmount.text = WallService.countAmountFormat(post.views)
+            like.text = WallService.countAmountFormat(post.likes)
+            share.text = WallService.countAmountFormat(post.shares)
+            views.text = WallService.countAmountFormat(post.views)
 
             like.setOnClickListener {
                 listener.onLike(post)

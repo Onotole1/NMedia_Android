@@ -35,15 +35,17 @@
         tools:text="@sample/posts.json/data/author"
         />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/menu"
+        app:icon="@drawable/baseline_more_vert_24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        style="@style/MenuStyle"
+        android:textColor="?attr/colorControlNormal"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/imageView2"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/baseline_more_vert_24"
         />
 
     <androidx.constraintlayout.widget.Barrier
@@ -93,72 +95,52 @@
         />
 
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
+        app:icon="@drawable/ic_like"
+        style="@style/LikeStyle"
+        android:text="10"
+        android:textColor="?attr/colorControlNormal"
+        android:checkable="true"
+        tools:checked="true"
+        app:iconPadding="0dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/barrier2"
         android:background="@android:color/transparent"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:srcCompat="@drawable/baseline_favorite_border_24"
         />
 
-    <TextView
-        android:id="@+id/likesAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toTopOf="@id/like"
-        app:layout_constraintStart_toEndOf="@id/like"
-        app:layout_constraintBottom_toBottomOf="@id/like"
-        tools:text="10"
-        />
-
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
+        style="@style/ShareStyle"
+        android:text="10"
+        app:iconPadding="0dp"
+        android:textColor="?attr/colorControlNormal"
         app:layout_constraintTop_toTopOf="@id/like"
-        app:layout_constraintStart_toEndOf="@id/likesAmount"
+        app:layout_constraintStart_toEndOf="@id/like"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/baseline_share_24"
+        app:icon="@drawable/baseline_share_24"
         />
 
-    <TextView
-        android:id="@+id/shareAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toTopOf="@id/share"
-        app:layout_constraintStart_toEndOf="@id/share"
-        app:layout_constraintBottom_toBottomOf="@id/share"
-        tools:text="5"
-        />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/views"
+        style="@style/ViewsStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="40dp"
-        app:layout_constraintTop_toTopOf="@id/like"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="20dp"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/baseline_remove_red_eye_24"
-        />
-
-    <TextView
-        android:id="@+id/viewsAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/views"
-        app:layout_constraintStart_toEndOf="@id/views"
-        app:layout_constraintBottom_toBottomOf="@id/views"
+        android:text="10"
+        android:textColor="?attr/colorControlNormal"
+        app:icon="@drawable/baseline_remove_red_eye_24"
+        app:iconPadding="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/like"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="500"
-        />
+        app:layout_constraintTop_toTopOf="@+id/like" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
