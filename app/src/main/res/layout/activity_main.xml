@@ -20,45 +20,6 @@
         tools:layout_editor_absoluteX="0dp" />
 
 
-<!--    <ImageView-->
-<!--        android:id="@+id/cancel"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginEnd="4dp"-->
-<!--        android:paddingBottom="10dp"-->
-<!--        android:background="@android:color/transparent"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/save"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:srcCompat="@drawable/baseline_cancel_24" />-->
-
-<!--    <ImageView-->
-<!--        android:id="@+id/cancelEditImg"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/save"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/cancel"-->
-<!--        app:srcCompat="@drawable/baseline_edit_24" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/cancelText"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:ellipsize="end"-->
-<!--        android:singleLine="true"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/cancel"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/cancelEditImg"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/cancel"-->
-<!--        tools:text="@string/edit_message" />-->
-
-
-<!--    <androidx.constraintlayout.widget.Group-->
-<!--        android:id="@+id/cancelGroup"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:visibility="visible"-->
-<!--        app:constraint_referenced_ids="cancel, cancelEditImg, cancelText, barrier3" />-->
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add"
         android:layout_width="wrap_content"

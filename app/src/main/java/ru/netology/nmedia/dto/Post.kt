@@ -13,6 +13,7 @@ data class Post (
     var likeByMe: Boolean = false,
     val likes: Int = 999,
     val shares: Int = 999,
-    val views: Int = 999
+    val views: Int = 999,
+    val video: String?
 )
 

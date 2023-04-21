@@ -17,6 +17,8 @@ class NewPostActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        binding.content.setText(intent?.getStringExtra(Intent.EXTRA_TEXT))
+
         binding.ok.setOnClickListener {
             val text = binding.content.text.toString()
             if(text.isBlank()) {
@@ -29,8 +31,8 @@ class NewPostActivity : AppCompatActivity() {
     }
 
 
-    object Contract : ActivityResultContract<Unit, String?>() {
-        override fun createIntent(context: Context, input: Unit) = Intent(context, NewPostActivity::class.java)
+    object Contract : ActivityResultContract<String, String?>() {
+        override fun createIntent(context: Context, input: String) = Intent(context, NewPostActivity::class.java).putExtra(Intent.EXTRA_TEXT, input)
 
         override fun parseResult(resultCode: Int, intent: Intent?) = intent?.getStringExtra(Intent.EXTRA_TEXT)
     }

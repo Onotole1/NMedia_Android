@@ -4,6 +4,7 @@ package ru.netology.nmedia
 import android.R.attr.visible
 import android.R.attr.x
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia.adapter.PostAdapter
 import ru.netology.nmedia.adapter.PostListener
+import ru.netology.nmedia.databinding.ActivityCardPostBinding
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.databinding.CardPostBinding
 import kotlin.math.floor
@@ -34,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         val viewModel: PostViewModel by viewModels()
 
 
-
         //объявление переменной; регистрация контракта
         val newPostContract = registerForActivityResult(NewPostActivity.Contract) { result ->
             result ?: return@registerForActivityResult //если null
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onEdit(post: Post) {
                     viewModel.edit(post)
+                    newPostContract.launch(post.content)
                 }
 
                 override fun onShare(post: Post) {
@@ -74,20 +76,26 @@ class MainActivity : AppCompatActivity() {
                 override fun onClearEditing(post: Post) {
                     viewModel.clearEditing()
                 }
-
             }
         )
 
 
-        viewModel.data.observe(this) { posts ->
+        viewModel.data.observe(this)
+        { posts ->
             adapter.submitList(posts)
         }
 
         activityBinding.list.adapter = adapter
 
-
         activityBinding.add.setOnClickListener {
-            newPostContract.launch()
+            newPostContract.launch("")
         }
+
+
+
+//        cardPostBinding.play.setOnClickListener {
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+//            startActivity(intent)
+//        }
     }
 }

@@ -13,7 +13,8 @@ private val empty = Post(
     author = "",
     content = "",
     published = "",
-    likeByMe = false
+    likeByMe = false,
+    video = ""
 )
 
 class PostViewModel: ViewModel() {
@@ -26,7 +27,6 @@ class PostViewModel: ViewModel() {
     fun shareById(id: Long) = repository.shareById(id)
 
     fun removeById(id: Long) = repository.removeById(id)
-
 
     val edited = MutableLiveData(empty)
 
