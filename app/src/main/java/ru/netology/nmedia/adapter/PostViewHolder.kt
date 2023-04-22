@@ -39,12 +39,11 @@ class PostViewHolder(
                 listener.onShare(post)
             }
 
-            videoContent.isVisible = !post.video.isNullOrBlank()
+            play.setOnClickListener {
+                listener.onOpenVideo(post)
+            }
 
-//            videoContent.setOnClickListener {
-//                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
-//                startActivity(, intent)
-//            }
+            videoContent.isVisible = !post.video.isNullOrBlank()
 
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {

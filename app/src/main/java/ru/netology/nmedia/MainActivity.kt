@@ -26,13 +26,19 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val activityBinding = ActivityMainBinding.inflate(layoutInflater)
+    override fun onResume() {
+        viewModel.clearEditing()
+        super.onResume()
+    }
+
+    val viewModel: PostViewModel by viewModels()
+
+    lateinit var activityBinding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        activityBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityBinding.root)
-
-        val viewModel: PostViewModel by viewModels()
 
 
         //объявление переменной; регистрация контракта
@@ -74,6 +80,11 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onClearEditing(post: Post) {
                     viewModel.clearEditing()
+                }
+
+                override fun onOpenVideo(post: Post) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+                    startActivity(intent)
                 }
             }
         )

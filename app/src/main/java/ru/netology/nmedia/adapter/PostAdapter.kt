@@ -15,6 +15,8 @@ interface PostListener {
     fun onLike(post: Post)
     fun onShare(post: Post)
     fun onClearEditing(post: Post)
+
+    fun onOpenVideo(post: Post)
 }
 
 class PostAdapter(
