@@ -25,13 +25,12 @@ import ru.netology.nmedia.utils.AndroidUtils
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
+
+    private val activityBinding = ActivityMainBinding.inflate(layoutInflater)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val activityBinding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(activityBinding.root)
-
 
         val viewModel: PostViewModel by viewModels()
 
@@ -90,12 +89,5 @@ class MainActivity : AppCompatActivity() {
         activityBinding.add.setOnClickListener {
             newPostContract.launch("")
         }
-
-
-
-//        cardPostBinding.play.setOnClickListener {
-//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
-//            startActivity(intent)
-//        }
     }
 }
