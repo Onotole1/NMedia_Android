@@ -1,53 +1,31 @@
 package ru.netology.nmedia
 
-
-import android.R.attr.visible
-import android.R.attr.x
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
-import androidx.activity.result.launch
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.adapter.PostAdapter
 import ru.netology.nmedia.adapter.PostListener
-import ru.netology.nmedia.databinding.ActivityCardPostBinding
-import ru.netology.nmedia.databinding.ActivityMainBinding
-import ru.netology.nmedia.databinding.CardPostBinding
-import kotlin.math.floor
-import kotlin.math.round
-import kotlin.math.roundToInt
-import ru.netology.nmedia.dto.WallService
-import ru.netology.nmedia.utils.AndroidUtils
+import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.viewmodel.PostViewModel
 
-class MainActivity : AppCompatActivity() {
-
-    override fun onResume() {
-        viewModel.clearEditing()
-        super.onResume()
-    }
-
-    val viewModel: PostViewModel by viewModels()
-
-    lateinit var activityBinding: ActivityMainBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activityBinding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(activityBinding.root)
+class FeedFragment : Fragment() {
 
 
-        //объявление переменной; регистрация контракта
-        val newPostContract = registerForActivityResult(NewPostActivity.Contract) { result ->
-            result ?: return@registerForActivityResult //если null
-            viewModel.changeContent((result)) //если не null
-            viewModel.save()
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
+        val viewModel: PostViewModel by activityViewModels()
+
+        val activityBinding = FragmentFeedBinding.inflate(layoutInflater)
 
         val adapter = PostAdapter(
             object : PostListener {
@@ -57,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onEdit(post: Post) {
                     viewModel.edit(post)
-                    newPostContract.launch(post.content)
+//                    newPostContract.launch(post.content)
                 }
 
                 override fun onShare(post: Post) {
@@ -86,11 +64,15 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
                     startActivity(intent)
                 }
+
+                override fun onDetailsClicked(post: Post) {
+                    findNavController().navigate(R.id.action_feedFragment_to_postDetailFragment)
+                }
             }
         )
 
 
-        viewModel.data.observe(this)
+        viewModel.data.observe(viewLifecycleOwner)
         { posts ->
             adapter.submitList(posts)
         }
@@ -98,7 +80,9 @@ class MainActivity : AppCompatActivity() {
         activityBinding.list.adapter = adapter
 
         activityBinding.add.setOnClickListener {
-            newPostContract.launch("")
+            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
+
+        return activityBinding.root
     }
 }

@@ -11,27 +11,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NMedia"
         tools:targetApi="31">
-        <activity
-            android:name=".NewPostActivity"
-            android:exported="false" />
-        <activity
-            android:name=".IntentHandlerActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="video/*" />
-            </intent-filter>
-        </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".AppActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
     </application>
