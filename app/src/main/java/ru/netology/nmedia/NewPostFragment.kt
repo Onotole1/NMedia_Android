@@ -8,10 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.databinding.FragmentNewPostBinding
-import ru.netology.nmedia.utils.textArg
+import ru.netology.nmedia.utils.TextArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class NewPostFragment : Fragment() {
+
+    companion object {
+        var Bundle.textArg: String? by TextArg
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

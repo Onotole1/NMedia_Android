@@ -9,13 +9,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import ru.netology.nmedia.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.PostAdapter
 import ru.netology.nmedia.adapter.PostListener
 import ru.netology.nmedia.databinding.FragmentFeedBinding
+import ru.netology.nmedia.utils.IdArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
 
+    companion object {
+        var Bundle.idArg: Long by IdArg
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +40,13 @@ class FeedFragment : Fragment() {
 
                 override fun onEdit(post: Post) {
                     viewModel.edit(post)
-//                    newPostContract.launch(post.content)
+                    findNavController()
+                        .navigate(
+                            R.id.action_feedFragment_to_newPostFragment,
+                            Bundle().apply {
+                                textArg = post.content
+                            }
+                        )
                 }
 
                 override fun onShare(post: Post) {
@@ -66,7 +77,8 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onDetailsClicked(post: Post) {
-                    findNavController().navigate(R.id.action_feedFragment_to_postDetailFragment)
+                    findNavController().navigate(R.id.action_feedFragment_to_postDetailFragment,
+                    )
                 }
             }
         )

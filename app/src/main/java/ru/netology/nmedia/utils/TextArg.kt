@@ -1,9 +1,14 @@
 package ru.netology.nmedia.utils
 
 import android.os.Bundle
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
-private const val KEY = "TEXT_ARG"
+object TextArg : ReadWriteProperty<Bundle, String?> {
+    override fun getValue(thisRef: Bundle, property: KProperty<*>): String? =
+        thisRef.getString(property.name)
 
-var Bundle.textArg: String?
-    get() = getString(KEY)
-    set(value) = putString(KEY, value)
+    override fun setValue(thisRef: Bundle, property: KProperty<*>, value: String?) {
+        thisRef.putString(property.name, value)
+    }
+}
