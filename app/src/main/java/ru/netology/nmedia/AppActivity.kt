@@ -10,9 +10,9 @@ import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.databinding.ActivityAppBinding
 
-class AppActivity : AppCompatActivity(R.layout.activity_app) {
+class AppActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val binding = ActivityAppBinding.inflate(layoutInflater)
@@ -32,15 +32,21 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
                     }
                     .show()
             } else {
-                Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+//                Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+                findNavController(R.id.nav_host_fragment)
+                    .navigate(R.id.action_feedFragment_to_newPostFragment,
+                        Bundle().apply {
+                            textArg = text
+                        }
+                    )
             }
 
-            findNavController(R.id.nav_host_fragment)
-                .navigate(R.id.action_feedFragment_to_newPostFragment,
-                    Bundle().apply {
-                        textArg = text
-                    }
-                )
+
+            //обнуляем отработанный интент
+            it.apply {// Устанавливаем ACTION_DEFAULT и удаляем дополнительный текст, чтобы избежать неожиданных действий в будущем
+                action = Intent.ACTION_DEFAULT
+                putExtra(Intent.EXTRA_TEXT, "")
+            }
         }
     }
 }
