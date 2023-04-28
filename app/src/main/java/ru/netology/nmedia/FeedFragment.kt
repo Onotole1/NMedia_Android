@@ -77,7 +77,11 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onDetailsClicked(post: Post) {
-                    findNavController().navigate(R.id.action_feedFragment_to_postDetailFragment,
+                    findNavController().navigate(
+                        R.id.action_feedFragment_to_postDetailFragment,
+                        Bundle().apply {
+                            idArg = post.id
+                        }
                     )
                 }
             }

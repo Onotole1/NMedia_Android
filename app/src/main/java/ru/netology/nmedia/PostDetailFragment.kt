@@ -15,9 +15,11 @@ import ru.netology.nmedia.adapter.PostListener
 import ru.netology.nmedia.adapter.PostViewHolder
 import ru.netology.nmedia.databinding.PostDetailFragmentBinding
 import ru.netology.nmedia.dto.WallService
+import ru.netology.nmedia.utils.IdArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class PostDetailFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
