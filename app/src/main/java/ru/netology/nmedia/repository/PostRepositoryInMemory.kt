@@ -19,6 +19,7 @@ class PostRepositoryInMemory(
 
     private val gson = Gson()
     private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
+
     private var posts: List<Post> = readPosts()
         set(value) {
             field = value
@@ -26,8 +27,10 @@ class PostRepositoryInMemory(
         }
 
     private val data = MutableLiveData(posts)
+    private val draftList = MutableLiveData<String>()
 
     override fun getData(): LiveData<List<Post>> = data
+    override fun getDraft(): LiveData<String> = draftList
 
     private fun sync() {
         context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE).bufferedWriter().use {
@@ -84,7 +87,6 @@ class PostRepositoryInMemory(
 
         data.value = posts
     }
-
 
     override fun save(post: Post) {
         if (post.id == 0L) {

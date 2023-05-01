@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -41,6 +42,21 @@ class NewPostFragment : Fragment() {
             }
             findNavController().navigateUp() // up - вверх/назад
         }
+
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+
+                }
+            }
+
+//            if (isEnabled) {
+//                isEnabled = false
+//                requireActivity().onBackPressed()
+//            }
+        )
 
         return binding.root
     }

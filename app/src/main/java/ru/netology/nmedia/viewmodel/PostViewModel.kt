@@ -23,6 +23,7 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
     private val repository: PostRepository = PostRepositoryInMemory(application)
 
     val data: LiveData<List<Post>> = repository.getData()
+    val draftList: LiveData<String> = repository.getDraft()
 
     fun likeById(id: Long) = repository.likeById(id)
 
@@ -30,7 +31,7 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
 
     fun removeById(id: Long) = repository.removeById(id)
 
-    val edited = MutableLiveData(empty)
+    private val edited = MutableLiveData(empty)
 
     fun save() {
         edited.value?.let {
