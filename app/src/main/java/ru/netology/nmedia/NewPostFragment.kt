@@ -48,7 +48,14 @@ class NewPostFragment : Fragment() {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    if(arguments?.textArg.isNullOrBlank()) {
+                        viewModel.saveDraft(binding.content.text.toString())
+                    } else {
+                        viewModel.saveDraft("")
+                        viewModel.clearEditing()
+                    }
 
+                    findNavController().navigateUp()
                 }
             }
 

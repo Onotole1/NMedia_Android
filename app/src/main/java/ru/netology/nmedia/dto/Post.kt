@@ -1,10 +1,5 @@
 package ru.netology.nmedia
 
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewParent
-
 data class Post (
     val id: Long,
     val author: String,
