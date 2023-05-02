@@ -39,6 +39,7 @@ class NewPostFragment : Fragment() {
                 val content = binding.content.text.toString()
                 viewModel.changeContent(content)
                 viewModel.save()
+                viewModel.saveDraft("")
             }
             findNavController().navigateUp() // up - вверх/назад
         }
