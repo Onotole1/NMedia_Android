@@ -17,27 +17,19 @@ class PostRepositoryInMemory(
 
     companion object {
         private const val FILE_NAME = "posts.json"
-        private const val DRAFT_FILE_NAME = "drafts.json"
+        private const val DRAFT_FILE_NAME = "draft.json"
     }
 
     private val gson = Gson()
-    private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
+    private val typeDraft = TypeToken.getParameterized(Draft::class.java).type
 
-    private var posts: List<Post> = readPosts()
-        set(value) {
-            field = value
-            sync()
-        }
-
-    private var drafts: List<Draft> = readDrafts()
-        set(value) {
-            field = value
-            sync()
-        }
+    private var posts: List<Post> = emptyList()
 
     private val data = MutableLiveData(posts)
-    private val draftList = MutableLiveData(drafts)
 
+    private var draft: Draft = readDrafts()
+
+    private val draftData = MutableLiveData(draft)
 
     //init используется для передачи свойству (posts) класса значения из конструктора
     init {
@@ -46,37 +38,24 @@ class PostRepositoryInMemory(
     }
 
     override fun getData(): LiveData<List<Post>> = data
-    override fun getDraft(): LiveData<List<Draft>> = draftList
 
+    override fun getDraft(): LiveData<Draft> = draftData
 
-    private fun sync() {
-        context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE).bufferedWriter().use {
-            it.write(gson.toJson(posts))
+    private fun draftSync() {
+        context.openFileOutput(DRAFT_FILE_NAME, Context.MODE_PRIVATE).bufferedWriter().use {
+            it.write(gson.toJson(draft))
         }
     }
 
-    private fun readPosts(): List<Post> {
-        val file = context.filesDir.resolve(FILE_NAME)
-
-        return if (file.exists()) {
-            context.openFileInput(FILE_NAME).bufferedReader().use {
-                gson.fromJson(it, type)
-            }
-        } else {
-            emptyList()
-        }
-    }
-
-
-    private fun readDrafts(): List<Draft> {
+    private fun readDrafts(): Draft {
         val file = context.filesDir.resolve(DRAFT_FILE_NAME)
 
         return if (file.exists()) {
             context.openFileInput(DRAFT_FILE_NAME).bufferedReader().use {
-                gson.fromJson(it, type)
+                gson.fromJson(it, typeDraft)
             }
         } else {
-            emptyList()
+            draft
         }
     }
 
@@ -84,11 +63,12 @@ class PostRepositoryInMemory(
     override fun likeById(id: Long) {
         posts = posts.map { post ->
             if (post.id == id) {
+                dao.likeById(id)
                 post.copy(
                     likeByMe = !post.likeByMe,
                     likes = if (post.likeByMe) post.likes - 1 else post.likes + 1
                 )
-            } else {
+            } else { //базу подключили, тут вопросы есть?
                 post
             }
         }
@@ -101,6 +81,7 @@ class PostRepositoryInMemory(
     override fun shareById(id: Long) {
         posts = posts.map { post ->
             if (post.id == id) {
+                dao.shareById(id)
                 post.copy(shares = post.shares + 1)
             } else {
                 post
@@ -114,6 +95,7 @@ class PostRepositoryInMemory(
         posts = posts.filter {
             it.id != id
         }
+        dao.removeById(id)
 
         data.value = posts
     }
@@ -134,23 +116,8 @@ class PostRepositoryInMemory(
     }
 
     override fun saveDraft(text: String) {
-        for (draft in drafts) {
-            if (draft.id == 0L) {
-                drafts = listOf(
-                    draft.copy(
-                        id = (drafts.firstOrNull()?.id ?: 0L) + 1,
-                        draftText = text
-                    )
-                ) + drafts
-                draftList.value = drafts
-                return
-            }
-
-            drafts = drafts.map {
-                if(it.id != draft.id) it else it.copy(draftText = draft.draftText)
-            }
-
-            draftList.value = drafts
+        if (!text.isNullOrBlank()) {
+            draft = draft.copy(draftText = text)
         }
     }
 }

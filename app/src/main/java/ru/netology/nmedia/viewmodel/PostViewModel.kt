@@ -1,11 +1,9 @@
 package ru.netology.nmedia.viewmodel
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import ru.netology.nmedia.Post
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Draft
@@ -23,7 +21,6 @@ private val empty = Post(
 )
 
 private val emptyDraft = Draft(
-    id = 0,
     draftText = ""
 )
 
@@ -35,7 +32,8 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
 
     val data: LiveData<List<Post>> = repository.getData()
 
-    private val draftList: LiveData<List<Draft>> = repository.getDraft()
+    val draft: LiveData<Draft> = repository.getDraft()
+
 
     fun likeById(id: Long) = repository.likeById(id)
 
@@ -45,7 +43,7 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
 
     private val edited = MutableLiveData(empty)
 
-    private val draftEdited = MutableLiveData(emptyDraft)
+    private val thisDraft = MutableLiveData(emptyDraft)
 
     fun save() {
         edited.value?.let {
@@ -56,9 +54,11 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun saveDraft(text: String) {
-        draftEdited.value?.let {
+        thisDraft.let {
             repository.saveDraft(text)
         }
+
+        thisDraft.value = emptyDraft
     }
 
     fun edit(post: Post) {
