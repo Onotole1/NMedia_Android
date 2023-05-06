@@ -32,6 +32,12 @@ class NewPostFragment : Fragment() {
             binding.content.setText(text)
         }
 
+        viewModel.draft.observe(viewLifecycleOwner) {
+            if(arguments?.textArg.isNullOrBlank()) {
+                binding.content.setText(it.draftText)
+            }
+        }
+
         binding.content.requestFocus()
 
         binding.ok.setOnClickListener {
@@ -59,12 +65,8 @@ class NewPostFragment : Fragment() {
                     findNavController().navigateUp()
                 }
             }
-
-//            if (isEnabled) {
-//                isEnabled = false
-//                requireActivity().onBackPressed()
-//            }
         )
+
 
         return binding.root
     }

@@ -43,7 +43,6 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
 
     private val edited = MutableLiveData(empty)
 
-    private val thisDraft = MutableLiveData(emptyDraft)
 
     fun save() {
         edited.value?.let {
@@ -54,11 +53,7 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun saveDraft(text: String) {
-        thisDraft.let {
-            repository.saveDraft(text)
-        }
-
-        thisDraft.value = emptyDraft
+        repository.saveDraft(text) //Эту строчку удалять я не говорил) Всё удалил, и забыл про это :D Спасибо!
     }
 
     fun edit(post: Post) {

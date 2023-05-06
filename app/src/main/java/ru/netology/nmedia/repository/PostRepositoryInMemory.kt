@@ -28,6 +28,11 @@ class PostRepositoryInMemory(
     private val data = MutableLiveData(posts)
 
     private var draft: Draft = readDrafts()
+        set(value) {
+            field = value
+            draftSync()
+            draftData.value = value
+        }
 
     private val draftData = MutableLiveData(draft)
 
@@ -55,7 +60,7 @@ class PostRepositoryInMemory(
                 gson.fromJson(it, typeDraft)
             }
         } else {
-            draft
+            Draft("")
         }
     }
 
@@ -68,7 +73,7 @@ class PostRepositoryInMemory(
                     likeByMe = !post.likeByMe,
                     likes = if (post.likeByMe) post.likes - 1 else post.likes + 1
                 )
-            } else { //базу подключили, тут вопросы есть?
+            } else {
                 post
             }
         }
@@ -116,8 +121,6 @@ class PostRepositoryInMemory(
     }
 
     override fun saveDraft(text: String) {
-        if (!text.isNullOrBlank()) {
-            draft = draft.copy(draftText = text)
-        }
+        draft = draft.copy(draftText = text)
     }
 }
