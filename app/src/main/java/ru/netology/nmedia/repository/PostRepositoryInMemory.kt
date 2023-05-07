@@ -3,11 +3,13 @@ package ru.netology.nmedia.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.netology.nmedia.Post
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Draft
+import ru.netology.nmedia.entity.PostEntity
 
 
 class PostRepositoryInMemory(
@@ -16,16 +18,11 @@ class PostRepositoryInMemory(
 ) : PostRepository {
 
     companion object {
-        private const val FILE_NAME = "posts.json"
         private const val DRAFT_FILE_NAME = "draft.json"
     }
 
     private val gson = Gson()
     private val typeDraft = TypeToken.getParameterized(Draft::class.java).type
-
-    private var posts: List<Post> = emptyList()
-
-    private val data = MutableLiveData(posts)
 
     private var draft: Draft = readDrafts()
         set(value) {
@@ -37,12 +34,11 @@ class PostRepositoryInMemory(
     private val draftData = MutableLiveData(draft)
 
     //init используется для передачи свойству (posts) класса значения из конструктора
-    init {
-        posts = dao.getAll()
-        data.value = posts
-    }
 
-    override fun getData(): LiveData<List<Post>> = data
+
+    override fun getData() = dao.getAll().map {
+        list -> list.map { it.toDto() }
+    }
 
     override fun getDraft(): LiveData<Draft> = draftData
 
@@ -65,60 +61,13 @@ class PostRepositoryInMemory(
     }
 
 
-    override fun likeById(id: Long) {
-        posts = posts.map { post ->
-            if (post.id == id) {
-                dao.likeById(id)
-                post.copy(
-                    likeByMe = !post.likeByMe,
-                    likes = if (post.likeByMe) post.likes - 1 else post.likes + 1
-                )
-            } else {
-                post
-            }
-        }
+    override fun likeById(id: Long) = dao.likeById(id)
 
-        data.value =
-            posts // оповещаем что-то изменилось, с помощью setValue записываем в MutableLiveData значение. Подписчикам придёт обновленный список
-    }
+    override fun shareById(id: Long) = dao.shareById(id)
 
+    override fun removeById(id: Long) = dao.removeById(id)
 
-    override fun shareById(id: Long) {
-        posts = posts.map { post ->
-            if (post.id == id) {
-                dao.shareById(id)
-                post.copy(shares = post.shares + 1)
-            } else {
-                post
-            }
-        }
-
-        data.value = posts
-    }
-
-    override fun removeById(id: Long) {
-        posts = posts.filter {
-            it.id != id
-        }
-        dao.removeById(id)
-
-        data.value = posts
-    }
-
-    override fun save(post: Post) {
-        val postId = post.id
-        val savedValue = dao.save(post)
-
-        posts = if (post.id == 0L) {
-            listOf(savedValue) + posts
-        } else {
-            posts.map {
-                if (it.id != postId) it else savedValue
-            }
-        }
-
-        data.value = posts
-    }
+    override fun save(post: Post) = dao.save(PostEntity.fromDto(post))
 
     override fun saveDraft(text: String) {
         draft = draft.copy(draftText = text)
