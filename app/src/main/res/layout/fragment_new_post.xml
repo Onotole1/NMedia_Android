@@ -2,20 +2,29 @@
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:hint="@string/content"
         android:gravity="start"
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
-        android:layout_marginBottom="56dp"
+        />
+
+    <EditText
+        android:id="@+id/contentVideoLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:hint="videoLink"
+        android:gravity="start"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
         />
 
     <!-- Note: A RecyclerView can also be used -->

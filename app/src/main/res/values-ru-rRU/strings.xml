@@ -9,4 +9,11 @@
     <string name="edit_item">Edit</string>
     <string name="ok">ok</string>
     <string name="video">video</string>
+    <string name="notification_user_liked">User %1$s liked %2$s\'s post</string>
+    <string name="channel_remote_name">Server notifications</string>
+    <string name="channel_remote_description">Notifications from remote server</string>
+
+    <string name="notification_user_createdPost">User %1$s created %2$s\'s post</string>
+    <string name="channel_remote_name_2">Server notifications</string>
+    <string name="channel_remote_description_2">Notifications from remote server</string>
 </resources>

@@ -31,7 +31,6 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
     )
 
     val data: LiveData<List<Post>> = repository.getData()
-
     val draft: LiveData<Draft> = repository.getDraft()
 
 
@@ -56,6 +55,10 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
         repository.saveDraft(text) //Эту строчку удалять я не говорил) Всё удалил, и забыл про это :D Спасибо!
     }
 
+    fun saveVideoLink(linkText: String) {
+        repository.saveVideoLink(linkText)
+    }
+
     fun edit(post: Post) {
         edited.value = post
     }
@@ -64,13 +67,14 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
         edited.value = empty
     }
 
-    fun changeContent(content: String) {
+    fun changeContent(content: String, videoLink: String) {
         edited.value?.let { post ->
             if(content != post.content) {
                 edited.value = post.copy(
                     published = "now",
                     author = "me",
-                    content = content
+                    content = content,
+                    video = videoLink
                 )
             }
         }

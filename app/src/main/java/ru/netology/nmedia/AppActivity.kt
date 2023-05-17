@@ -1,6 +1,8 @@
 package ru.netology.nmedia
 
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Toast
@@ -14,6 +16,10 @@ class AppActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(arrayOf(POST_NOTIFICATIONS), 100500)
+        }
 
         val binding = ActivityAppBinding.inflate(layoutInflater)
 

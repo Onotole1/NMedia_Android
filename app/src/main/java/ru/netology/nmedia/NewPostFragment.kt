@@ -43,7 +43,8 @@ class NewPostFragment : Fragment() {
         binding.ok.setOnClickListener {
             if(!binding.content.text.isNullOrBlank()) {
                 val content = binding.content.text.toString()
-                viewModel.changeContent(content)
+                val videoContentLink = binding.contentVideoLink.text.toString()
+                viewModel.changeContent(content, videoContentLink)
                 viewModel.save()
                 viewModel.saveDraft("")
             }
@@ -57,8 +58,10 @@ class NewPostFragment : Fragment() {
                 override fun handleOnBackPressed() {
                     if(arguments?.textArg.isNullOrBlank()) {
                         viewModel.saveDraft(binding.content.text.toString())
+                        viewModel.saveVideoLink(binding.contentVideoLink.text.toString())
                     } else {
                         viewModel.saveDraft("")
+                        viewModel.saveVideoLink("")
                         viewModel.clearEditing()
                     }
 

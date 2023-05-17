@@ -1,5 +1,6 @@
 *.iml
 .gradle
+/.gitignore
 /.idea
 /local.properties
 /.idea/caches
@@ -14,3 +15,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+app/google-services.json

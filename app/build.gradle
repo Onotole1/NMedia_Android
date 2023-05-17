@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -43,6 +44,8 @@ dependencies {
     def gson_version = "2.10.1"
     def nav_version = "2.5.3"
     def room_version = "2.5.1"
+    def firebase_version = "32.0.0"
+    def play_services_base_version = "18.2.0"
 
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
     implementation "androidx.activity:activity-ktx:$activity_version"
@@ -63,6 +66,9 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation platform("com.google.firebase:firebase-bom:$firebase_version")
+    implementation "com.google.firebase:firebase-messaging-ktx"
+    implementation "com.google.android.gms:play-services-base:$play_services_base_version"
 }
 
 subprojects {
