@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -39,14 +40,19 @@ class FCMService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
 
-        message.data[action]?.let {
-            for (action in Action.values()) {
-                when (action) {
-                    Action.LIKE -> handleLike(gson.fromJson(message.data[content], Like::class.java))
-                    Action.NEW_POST -> handlePost(gson.fromJson(message.data[content], Post::class.java))
-                }
+        message.data[action]?.let {actionType ->
+            val listAction = Action.values().map {
+                it.name
+            }
+            if(listAction.contains(actionType)) {
+                return
+            }
+            when (Action.valueOf(actionType)) {
+                Action.LIKE -> handleLike(gson.fromJson(message.data[content], Like::class.java))
+                Action.NEW_POST -> handlePost(gson.fromJson(message.data[content], Post::class.java))
             }
         }
+        return
     }
 
     override fun onNewToken(token: String) {
@@ -70,6 +76,7 @@ class FCMService : FirebaseMessagingService() {
     }
 
     private fun handlePost(post: Post) {
+        val largeIcon = BitmapFactory.decodeResource(resources, R.drawable.maldives)
         val notification = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(
@@ -79,12 +86,12 @@ class FCMService : FirebaseMessagingService() {
                     post.content
                 )
             )
-            .setLargeIcon(R.drawable.maldives)
-            .setStyle(NotificationCompat.BigPictureStyle()
-                .bigPicture(R.drawable.maldives)
-                .bigLargeIcon(null))
+            .setContentText(post.content)
+            .setLargeIcon(largeIcon)
             .setStyle(NotificationCompat.BigTextStyle()
                 .bigText(post.content))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .build()
     }
 
     private fun notify(notification: Notification) {
