@@ -44,7 +44,7 @@ class FCMService : FirebaseMessagingService() {
             val listAction = Action.values().map {
                 it.name
             }
-            if(listAction.contains(actionType)) {
+            if(!listAction.contains(actionType)) {
                 return
             }
             when (Action.valueOf(actionType)) {
