@@ -1,4 +1,4 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import ru.netology.nmedia.FeedFragment.Companion.idArg
-import ru.netology.nmedia.NewPostFragment.Companion.textArg
+import ru.netology.nmedia.Post
+import ru.netology.nmedia.R
+import ru.netology.nmedia.ui.FeedFragment.Companion.idArg
+import ru.netology.nmedia.ui.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.PostListener
 import ru.netology.nmedia.adapter.PostViewHolder
 import ru.netology.nmedia.databinding.PostDetailFragmentBinding
-import ru.netology.nmedia.dto.WallService
-import ru.netology.nmedia.utils.IdArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class PostDetailFragment : Fragment() {

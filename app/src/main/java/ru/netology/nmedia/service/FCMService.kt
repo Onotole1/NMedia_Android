@@ -38,8 +38,8 @@ class FCMService : FirebaseMessagingService() {
         }
     }
 
-    override fun onMessageReceived(message: RemoteMessage) {
 
+    override fun onMessageReceived(message: RemoteMessage) {
         message.data[action]?.let {actionType ->
             val listAction = Action.values().map {
                 it.name
@@ -56,7 +56,10 @@ class FCMService : FirebaseMessagingService() {
     }
 
     override fun onNewToken(token: String) {
-
+        getSharedPreferences("fcb_token", Context.MODE_PRIVATE)
+            .edit()
+            .putString("token", token)
+            .apply()
         println(token)
     }
 
@@ -93,6 +96,8 @@ class FCMService : FirebaseMessagingService() {
                 .bigText(post.content))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
+
+        notify(notification)
     }
 
     private fun notify(notification: Notification) {
@@ -118,7 +123,7 @@ data class Like(
     val userName: String,
     val postId: Long,
     val postAuthor: String,
-)
+) // открывайте sender и firebase cons
 
 data class Post(
     val id: Long,
