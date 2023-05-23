@@ -1,0 +1,10 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/Dmitriy1011/NMedia_Android
+	fetch = +refs/*:refs/*
+	mirror = true
