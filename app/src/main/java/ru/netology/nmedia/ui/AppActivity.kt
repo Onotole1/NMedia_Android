@@ -16,7 +16,7 @@ class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestPermissions(arrayOf(POST_NOTIFICATIONS), 100500)
         }
 
@@ -25,6 +25,7 @@ class AppActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         intent?.let {
+
             if (it.action != Intent.ACTION_SEND) {
                 return@let
             }
@@ -37,6 +38,7 @@ class AppActivity : AppCompatActivity() {
                     }
                     .show()
             } else {
+
 //                Toast.makeText(this, text, Toast.LENGTH_LONG).show()
                 findNavController(R.id.nav_host_fragment)
                     .navigate(
