@@ -13,13 +13,14 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    
+
+
     <style name="LikeStyle" parent="Widget.Material3.Button.TextButton">
-        
+
         <item name="iconTint">@color/like_btn_tint</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">?attr/colorControlNormal</item>
-        
+
     </style>
 
     <style name="ShareStyle" parent="Widget.Material3.Button.TextButton">
